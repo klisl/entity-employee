@@ -66,6 +66,8 @@ composer require beberlei/assert
 
 Пример использования:
 ------------------  
+
+```
 $hydrator = new Hydrator();
 $repository = new LaravelEmployeeRepository($hydrator);
 
@@ -108,7 +110,7 @@ $employeeService->dismissal($employeeGotted->getId(), new \DateTimeImmutable('20
 //        $dateArchive = new \DateTimeImmutable('2018-01-22');
 //        $employeeService->archive($employeeGotted->getId(), $dateArchive); //Смена статуса (в архиве)
 //        $employeeService->remove($employeeGotted->getId()); //Удаление сотрудника из БД
-  
+```  
   
 
 Мой блог: [klisl.com](http://klisl.com)  
