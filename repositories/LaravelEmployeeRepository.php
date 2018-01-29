@@ -20,6 +20,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * Репозиторий для сущности Employee(сотрудник)
+ * (фреймворк Laravel-5)
  *
  * @package app\repositories
  */

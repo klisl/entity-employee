@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Создание таблиц для сущности "сотрудник"
  */
-class m180126_204719_create_sql_tables extends Migration
+class m180126_204719_create_employee_tables extends Migration
 {
 
     /**

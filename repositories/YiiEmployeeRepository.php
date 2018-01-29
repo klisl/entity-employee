@@ -2,7 +2,6 @@
 
 namespace app\repositories;
 
-
 use app\entities\employee\Code;
 use app\entities\employee\DateDismissal;
 use app\entities\employee\DateOfBirth;
@@ -19,11 +18,19 @@ use yii\db\Connection;
 use yii\db\Query;
 
 
+/**
+ * Репозиторий для сущности Employee(сотрудник)
+ * (фреймворк Yii-2)
+ *
+ * @package app\repositories
+ */
 class YiiEmployeeRepository implements EmployeeRepository
 {
-    private $items = [];
+
     private $db;
+
     private $hydrator;
+
 
     public function __construct(Connection $db, Hydrator $hydrator)
     {
@@ -31,7 +38,11 @@ class YiiEmployeeRepository implements EmployeeRepository
         $this->hydrator = $hydrator;
     }
 
-
+    /**
+     * Создание объекта EmployeeId с идентификатором текущего сотрудника
+     * Используется расширение UUID
+     * @return EmployeeId
+     */
     public function nextId(): EmployeeId
     {
         return new EmployeeId(Uuid::uuid4()->toString());
@@ -98,7 +109,11 @@ class YiiEmployeeRepository implements EmployeeRepository
     }
 
 
-
+    /**
+     * Добавление нового сотрудника в БД
+     * @param Employee $employee
+     * @return void
+     */
     public function add(Employee $employee): void
     {
 
@@ -111,6 +126,12 @@ class YiiEmployeeRepository implements EmployeeRepository
         });
     }
 
+
+    /**
+     * Обновление данных сотрудника в БД
+     * @param Employee $employee
+     * @return void
+     */
     public function save(Employee $employee): void
     {
         $this->db->transaction(function () use ($employee) {
@@ -125,6 +146,12 @@ class YiiEmployeeRepository implements EmployeeRepository
         });
     }
 
+
+    /**
+     * Удаление сотрудника из БД
+     * @param Employee $employee
+     * @return void
+     */
     public function remove(Employee $employee): void
     {
         $this->db->createCommand()
@@ -158,6 +185,12 @@ class YiiEmployeeRepository implements EmployeeRepository
     }
 
 
+    /**
+     * Обновляет номера телефонов сотрудника
+     * Удаляет те, что были/добавляет имеющийся у объекта Employee
+     * @param Employee $employee
+     * @return void
+     */
     private function updatePhones(Employee $employee): void
     {
         $this->db->createCommand()
@@ -178,6 +211,12 @@ class YiiEmployeeRepository implements EmployeeRepository
     }
 
 
+    /**
+     * Обновляет статус сотрудника
+     * Удаляет тот, что был/добавляет имеющийся у объекта Employee
+     * @param Employee $employee
+     * @return void
+     */
     private function updateStatuses(Employee $employee): void
     {
         $this->db->createCommand()

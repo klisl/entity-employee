@@ -3,15 +3,12 @@
 namespace app\entities\employee;
 
 
-use Assert\Assertion;
-
 class Code
 {
     private $inn;
 
     public function __construct(string $code)
     {
-        Assertion::notEmpty($code);
         $this->inn = $code;
     }
 

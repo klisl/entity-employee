@@ -2,7 +2,6 @@
 
 namespace app\entities\employee\events;
 
-use Assert\Assertion;
 use app\entities\employee\EmployeeId;
 use app\entities\employee\Phone;
 

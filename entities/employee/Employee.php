@@ -21,7 +21,6 @@ use app\entities\employee\events\EmployeePhoneRemovedEvent;
 use app\entities\employee\events\EmployeeRemovedEvent;
 use app\entities\employee\events\EmployeeRenamedEvent;
 use app\entities\EventTrait;
-use Assert\Assertion;
 use DateTimeImmutable;
 
 /**
@@ -234,13 +233,12 @@ class Employee
 
     /**
      * Дата увольнения
-     * @param string $date
+     * @param DateTimeImmutable $date
      * @return void
      */
-    public function dismissal(string $date): void
+    public function dismissal(DateTimeImmutable $date): void
     {
-        $this->dateDismissal = new DateDismissal(new DateTimeImmutable($date));
-
+        $this->dateDismissal = new DateDismissal($date);
     }
 
     /**
