@@ -98,16 +98,11 @@ $employee = (new EmployeeBuilder())
     ->setSex()
     ->build();
 
-
-//Диспетчер для обработки отложенных событий
-$dispatcher = new DummyEventDispatcher();
-//Сервис для работы с сущностью Employee (сотрудник)
-$employeeService = new EmployeeService($repository, $dispatcher);
+$dispatcher = new DummyEventDispatcher(); //Диспетчер для обработки отложенных событий
+$employeeService = new EmployeeService($repository, $dispatcher); //Сервис для работы с сущностью Employee (сотрудник)
 
 $employeeService->create($employee); //Создание записи о новом сотруднике в БД
 
-//Удаление номера телефона
-$employeeService->removePhoneByNumber($employee->getId(), '+380632222222');
 
 
 
@@ -116,8 +111,10 @@ $employeeService->removePhoneByNumber($employee->getId(), '+380632222222');
  */
 $employeeGotted = $employeeService->searchByName(new Name('Иванов', 'Иван', 'Иванович')); //Поиск по ФИО
 $employeeService->rename($employeeGotted->getId(), new Name('Петров', 'Иван', 'Иванович')); //Изменение в ФИО
-$employeeService->addPhone($employeeGotted->getId(), new Phone('+380683333333')); //добавить номер телефона
-$employeeService->dismissal($employeeGotted->getId(), new \DateTimeImmutable('2018-01-25')); //увольнение
+
+$employeeService->removePhoneByNumber($employeeGotted->getId(), '+380632222222'); //Удаление номера телефона
+$employeeService->addPhone($employeeGotted->getId(), new Phone('+380683333333')); //Добавление номера телефона
+$employeeService->dismissal($employeeGotted->getId(), new \DateTimeImmutable('2018-01-25')); //Отметка об увольнении
 
 $dateArchive = new \DateTimeImmutable('2018-01-22');
 $employeeService->archive($employeeGotted->getId(), $dateArchive); //Смена статуса (в архиве)

@@ -12,8 +12,8 @@ class DummyEventDispatcher implements EventDispatcher
     public function dispatch(array $events): void
     {
         foreach ($events as $event) {
-//            \Yii::info('Dispatch event ' . \get_class($event));
-//            \Log::info('Dispatch event ' . \get_class($event));
+//            \Yii::info('Dispatch event ' . \get_class($event)); //for Yii-2
+//            \Log::info('Dispatch event ' . \get_class($event)); //for Laravel-5
         }
     }
 }

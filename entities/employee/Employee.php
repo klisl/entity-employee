@@ -12,6 +12,8 @@
 namespace app\entities\employee;
 
 
+use app\entities\employee\domainException\RemoveIfStatusActiveException;
+use app\entities\employee\domainException\StatusAlreadyExistsException;
 use app\entities\employee\events\EmployeeChangedCodeEvent;
 use app\entities\employee\events\EmployeeChangedSexEvent;
 use app\entities\employee\events\EmployeeChangedStatusEvent;
@@ -111,6 +113,11 @@ class Employee
         $this->addEvent(new EmployeePhoneRemovedEvent($this->getId(), $phone));
     }
 
+    /**
+     * Удаление телефона по его номеру
+     * @param string $number
+     * @return void
+     */
     public function removePhoneByNumber(string $number): void
     {
         $phone = $this->phones->removeByNumber($number);
@@ -165,7 +172,7 @@ class Employee
     public function archive(DateTimeImmutable $date): void
     {
         if($this->isArchived()){
-            throw new \DomainException('Статус сотрудника уже "archived"');
+            throw new StatusAlreadyExistsException('archived');
         }
 
         $this->addStatus(Status::ARCHIVED, $date);
@@ -181,7 +188,7 @@ class Employee
     public function reinstate(DateTimeImmutable $date): void
     {
         if($this->isActive()){
-            throw new \DomainException('Статус сотрудника уже "active"');
+            throw new StatusAlreadyExistsException('active');
         }
 
         $this->addStatus(Status::ACTIVE, $date);
@@ -213,11 +220,6 @@ class Employee
      */
     private function addStatus($value, DateTimeImmutable $date): void
     {
-        $statuses = $this->getStatuses();
-
-        if ($statuses && $value === end($statuses)){
-            throw new \DomainException('Данный статус уже назначен');
-        }
         $this->statuses[] = new Status($value, $date);
     }
 
@@ -248,7 +250,7 @@ class Employee
     public function remove(): void
     {
         if(!$this->isArchived()){
-            throw new \DomainException('Нельзя удалить сотрудника со статусом "active"');
+            throw new RemoveIfStatusActiveException();
         }
 
         $this->addEvent(new EmployeeRemovedEvent($this->getId(), new DateTimeImmutable()));
